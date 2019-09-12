@@ -171,6 +171,15 @@ function initializeLocalStorage() {
   });
   parent_menu.appendChild(file_adder);
 
+  let file_downloader = document.createElement("a");
+  file_downloader.setAttribute("id", "file-download");
+  file_downloader.appendChild(document.createTextNode("Hlaða niður skjali"));
+  let text = editor.getValue();
+  let file = new Blob([text], {type: "text/xml"});
+  file_downloader.setAttribute("href", URL.createObjectURL(file));
+  file_downloader.setAttribute("download", getSpeechIdFromContent(text));
+  parent_menu.appendChild(file_downloader);
+
   // add the file saver
   let link_node = document.createElement("a");
   link_node.appendChild(document.createTextNode('Vista skjal...'));
