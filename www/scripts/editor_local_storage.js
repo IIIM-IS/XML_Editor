@@ -148,6 +148,29 @@ function initializeLocalStorage() {
   let parent_menu = document.getElementById('local-storage-menu');
   removeAllChildren(parent_menu);
 
+  let file_adder_label = document.createElement("label");
+  file_adder_label.setAttribute("for", "file-input");
+  file_adder_label.setAttribute("id", "file-input-label");
+  file_adder_label.appendChild(document.createTextNode("Hlaða upp skjali"));
+  parent_menu.appendChild(file_adder_label);
+
+  let file_adder = document.createElement("input");
+  file_adder.setAttribute('type', 'file');
+  file_adder.setAttribute('id', 'file-input');
+  file_adder.addEventListener('change', function(e) {
+    var file = e.target.files[0];
+    if (!file) {
+      return;
+    }
+    var reader = new FileReader();
+    reader.onload = function(e) {
+      var contents = e.target.result;
+      setEditorContent(contents);
+    }
+    reader.readAsText(file);
+  });
+  parent_menu.appendChild(file_adder);
+
   // add the file saver
   let link_node = document.createElement("a");
   link_node.appendChild(document.createTextNode('Vista skjal...'));

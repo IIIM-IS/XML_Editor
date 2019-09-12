@@ -634,6 +634,29 @@ ul.links {
   color: white;
 }
 
+#file-input {
+  display: none;
+  background-color: #008cba;
+  padding: 8px 16px;
+  text-decoration: none;
+  color: white;
+}
+
+#file-input-label {
+  display: block;
+  color: #3C3C3C;
+  font-size: 105%;
+  margin: 0 30px 3px 0;
+  padding: 0px 10px 3px 7px;
+  line-height: 21px;
+}
+
+#file-input-label:hover,
+#file-input-label:focus {
+  color: #FFFFFF;
+  background-color: #0088CC;
+}
+
 .button {
   background-color: #008cba;
   border-radius: 4px;
