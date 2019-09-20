@@ -1,15 +1,16 @@
 <!doctype html>
 <html lang="is">
   <head>
+    <meta charset="utf-8" />
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <title>Listi yfir ný orð</title>
-
-    <script src="scripts/special_characters.js"></script>
-    <script src="scripts/new_words.js"></script>
 
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
     <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script src="scripts/special_characters.js"></script>
+    <script src="scripts/new_words.js"></script>
+
 
     <style type="text/css">
     html, body {
@@ -27,7 +28,21 @@
       cursor: pointer;
     }
 
-    table {
+    button.non-edit-button {
+      cursor: default;
+    }
+
+    table.new {
+      table-layout: fixed;
+      width: 30%;
+      font-family: monospace;
+      border-collapse: collapse;
+      border-spacing: 0 1em; 
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    table.similar {
       width: 100%;
       font-family: monospace;
       border-collapse: collapse;
@@ -66,6 +81,29 @@
       border-right: 1px powderblue dotted;
     }
 
+    tbody {
+      margin-top: 5%;
+    }
+
+    #selection-container {
+      margin-left: auto;
+      margin-right: auto;
+      text-align: center;
+    }
+
+    #period-search-container {
+      display: inline-block;
+    }
+
+    #speech-search-container {
+      display: inline-block;
+    }
+
+    #backButtonContainer {
+      display: inline-block;
+    }
+
+
     #main-container {
       max-width: 95%;
       min-height: 400px;
@@ -88,16 +126,32 @@
       padding: 0px;
     }
 
+    #new-word-table {
+      text-align: center;
+    }
+
+    #new-word-table-body {
+      display: inline-block;
+    }
+
     .container {
       margin: 4px;
       padding: 4px;
     }
 
-    .word-col { 
+    .similar-word-col {
       width: 20%;
     }
 
+    .word-col { 
+      width: 50%;
+    }
+
     .phoneme-col { 
+      width: 20%;
+    }
+
+    .occurence-col {
       width: 20%;
     }
 
@@ -107,7 +161,7 @@
     }
 
     .submit-col {
-      width: 10%;
+      width: 20%;
       text-align: center;
     }
 
@@ -119,6 +173,7 @@
       background-color: khaki;
       color: navy;
       font-weight: bold;
+      display: inline-block;
     }
 
     .delete-button {
@@ -129,6 +184,7 @@
       background-color: crimson;
       color: white;
       font-weight: bold;
+      display: inline-block;
     }
 
     .edit-button {
@@ -233,17 +289,31 @@
           <span> Ræða: <input type="text" id="speech-id" value="rad20190401T150933"></span>
           <button class="save-button" id="search-speech-button">Leita</button>
         </div>
+        <div id="backButtonContainer">
+          <button class="save-button" id="back-button">Til baka</button>
+        </div>
       </div>
       <div id="content-container">
         <div id="content-main">
           <div id="new-word-list">
-            <table id="new-word-table">
-              <tbody id="new-word-table">
+            <table id="new-word-table" class="new">
+              <tbody id="new-word-table-body">
+                <tr>
+                  <th class="word-col">Orð</th>
+                  <th class="occurence-col">Fjöldi tilvika</th>
+                  <th class="submit-col">Frágangur</th>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div id="similar-word-list">
+            <table id="similar-word-table" class="similar">
+              <tbody id="similar-word-table-body">
                 <tr>
                   <th class="word-col">Orð</th>
                   <th class="phoneme-col">Framburður</th>
                   <th class="context-col">Samhengi</th>
-                  <th class="sumbit-col">Frágangur</th>
+                  <th class="submit-col">Frágangur</th>
                 </tr>
               </tbody>
             </table>
