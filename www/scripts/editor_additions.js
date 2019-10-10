@@ -25,6 +25,11 @@ function insertTagElement(tag_label, newline=false) {
   return;
 }
 
+function splitTagElement(tag_label, new_line) {
+  var element = "</" + tag_label + ">\n<" + tag_label + ">";
+  insertElementAtCursor(element, 0, new_line);
+}
+
 function populateInsertElementContainer(data) {
   function createDivWithId(id) {
     let div = document.createElement("div");
@@ -618,10 +623,6 @@ function fixInsertQuotes(instance, changeObj) {
 }
 
 function handleEnterPressed(instance) {
-  // If we are in raw mode, just send Enter
-  if (_current_view == 'XML') {
-    return CodeMirror.Pass;
-  }
   // Let's insert some <mgr> </mgr> tags
   // If inside a <vísa>, insert a <lína> </lína> pair instead
   // Step 1: figure out our context
@@ -668,6 +669,8 @@ function handleEnterPressed(instance) {
             label = tok;
             break;
           case 'mgr':
+            label = tok;
+            break;
           case 'erindi':
             label = tok;
             fix_line = -1;
@@ -722,13 +725,14 @@ function handleEnterPressed(instance) {
     console.log("Enter pressed in unknown context");
     return CodeMirror.Pass;
   }
-  // Step 2: Move out of the <mgr> or <lína> if we are in one
 
-  let new_pos = { line: pos.line + 1 - fix_line, ch: 0 }
-  instance.setCursor(new_pos);
-
-  // Step 3: insert a new <mgr> or <lína>
-  insertTagElement(label, newline=true);
+  // Step 2: insert a new <mgr> or <lína>
+  if (label == 'mgr' || label == 'lína') {
+    splitTagElement(label, label == 'mgr');
+  }
+  else {
+    insertTagElement(label, newline=true);
+  }
 
   if (label == 'erindi') {
     insertTagElement('lína', newline=true);
