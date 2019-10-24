@@ -25,6 +25,11 @@ function insertTagElement(tag_label, newline=false) {
   return;
 }
 
+function splitTagElement(tag_label, new_line) {
+  var element = "</" + tag_label + ">\n<" + tag_label + ">";
+  insertElementAtCursor(element, 0, new_line);
+}
+
 function populateInsertElementContainer(data) {
   function createDivWithId(id) {
     let div = document.createElement("div");
@@ -122,31 +127,6 @@ function populateInsertElementContainer(data) {
 }
 
 function populateTreeExplorer() {
-  function getTextAtTagLocation(tag) {
-    let pos = { line: tag.line, ch: tag.start_index };
-    let word = editor.findWordAt(pos);
-    let line = editor.getLine(word.anchor.line);
-
-    let word_left  = line.substring(0, word.anchor.ch);
-    let word_right = line.substring(word.head.ch);
-
-    let start = tag.end_index;
-    let end = start + 24;
-    if (line.length < end) {
-      end = line.length;
-    }
-
-    let phrase = line.substring(start, end);
-
-    if (phrase) {
-      phrase += '...';
-    } else {
-      phrase = editor.getLine(tag.line + 1).substring(0, 24) + "..."
-    }
-
-    return phrase;
-  }
-
   function addTagToTree(tag) {
     let list_element = document.createElement("li");
     let link_element = document.createElement("a");
@@ -373,7 +353,7 @@ function populateAttributeInspector() {
     mutate_col_element.appendChild(mutate_col_textbox);
     row_element.appendChild(mutate_col_element);
 
-    // TODO HERE: listen for changes in the textbox, and reflect in CodeMirror
+    // listen for changes in the textbox, and reflect in CodeMirror
     mutate_col_textbox.addEventListener('change', function() { 
       callback(attribute, this.value); 
       _last_view = 'changed';
@@ -460,8 +440,8 @@ function insertCommentPrompt() {
   // comments may not have double hyphens, so replace any instances of double hyphens with a hyphen, space, hyphen
   let re = new RegExp('--', 'g');
   let comment_element = comment_content.replace(re, '- -');
+  // do it twice just in case of triplets
   comment_element = comment_element.replace(re, '- -');
-  // do it again just in case of triplets
   comment_element = '<!-- ' + comment_element + ' -->';
 
   insertElementAtCursor(comment_element);
@@ -643,10 +623,6 @@ function fixInsertQuotes(instance, changeObj) {
 }
 
 function handleEnterPressed(instance) {
-  // If we are in raw mode, just send Enter
-  if (_current_view == 'XML') {
-    return CodeMirror.Pass;
-  }
   // Let's insert some <mgr> </mgr> tags
   // If inside a <vísa>, insert a <lína> </lína> pair instead
   // Step 1: figure out our context
@@ -693,6 +669,8 @@ function handleEnterPressed(instance) {
             label = tok;
             break;
           case 'mgr':
+            label = tok;
+            break;
           case 'erindi':
             label = tok;
             fix_line = -1;
@@ -747,13 +725,14 @@ function handleEnterPressed(instance) {
     console.log("Enter pressed in unknown context");
     return CodeMirror.Pass;
   }
-  // Step 2: Move out of the <mgr> or <lína> if we are in one
 
-  let new_pos = { line: pos.line + 1 - fix_line, ch: 0 }
-  instance.setCursor(new_pos);
-
-  // Step 3: insert a new <mgr> or <lína>
-  insertTagElement(label, newline=true);
+  // Step 2: insert a new <mgr> or <lína>
+  if (label == 'mgr' || label == 'lína') {
+    splitTagElement(label, label == 'mgr');
+  }
+  else {
+    insertTagElement(label, newline=true);
+  }
 
   if (label == 'erindi') {
     insertTagElement('lína', newline=true);
@@ -768,14 +747,16 @@ function handleEnterPressed(instance) {
 var limitedElementInserter = debounce(function(instance) {
     instance.populateElementInserter({completeSingle: false})}, 200),
   limitedTreeExplorerPopulator = throttle(populateTreeExplorer, 500),
-  limitedAttributeInspectorPopulator = debounce(populateAttributeInspector, 200);
+  limitedAttributeInspectorPopulator = debounce(populateAttributeInspector, 200),
+  limitedCorrectionSuggestor = debounce(populateCorrections, 200);
 
 function handleCursorActivity(instance) {
-
   // insert element
   limitedElementInserter(instance);
   // tree explorer
   limitedTreeExplorerPopulator();
   // attribute explorer
   limitedAttributeInspectorPopulator();
+  // suggested automatic corrections based on ASR
+  limitedCorrectionSuggestor();
 }

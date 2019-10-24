@@ -91,6 +91,7 @@ function start() {
   editor.on('focus', applyViewMode);
   editor.on('cursorActivity', handleCursorActivity);
   editorInitializers();
+  createSpellChecker(editor);
 }
 
 function loadXMLtoEditor(xml_path) {
@@ -135,3 +136,20 @@ function setEditorContent(content) {
   editor.setValue(content);
   editorInitializers();
 }
+
+$(document).ready(function() {
+  document.getElementById('toggle-autovalidate').addEventListener('click', toggleAutovalidate);
+
+  document.getElementById('insert-comment').addEventListener('click', insertCommentPrompt);
+  document.getElementById('load-example-1').addEventListener('click', function() { loadXMLtoEditor('resources/example_xml/rad20180612T234422.xml');});
+  document.getElementById('load-example-2').addEventListener('click', function() { loadXMLtoEditor('resources/example_xml/rad20180613T003335.xml');});
+  document.getElementById('load-example-3').addEventListener('click', function() { loadXMLtoEditor('resources/example_xml/rad20180718T150651.xml');});
+  document.getElementById('load-example-dag014').addEventListener('click', function() { loadXMLtoEditor('resources/example_xml/dag014.xml');});
+  document.getElementById('load-example-fja012').addEventListener('click', function() { loadXMLtoEditor('resources/example_xml/fja012.xml');});
+  document.getElementById('load-example-fun023').addEventListener('click', function() { loadXMLtoEditor('resources/example_xml/fun023.xml');});
+  document.getElementById('load-example-inn029').addEventListener('click', function() { loadXMLtoEditor('resources/example_xml/inn029.xml');});
+  document.getElementById('load-example-les025').addEventListener('click', function() { loadXMLtoEditor('resources/example_xml/les025.xml');});
+  document.getElementById('load-example-lid20171215T103413').addEventListener('click', function() { loadXMLtoEditor('resources/example_xml/lid20171215T103413.xml');});
+  document.getElementById('load-example-lid20181009T230112').addEventListener('click', function() { loadXMLtoEditor('resources/example_xml/lid20181009T230112.xml');});
+  document.getElementById('load-example-utb20171215T201027').addEventListener('click', function() { loadXMLtoEditor('resources/example_xml/utb20171215T201027.xml');});
+});
