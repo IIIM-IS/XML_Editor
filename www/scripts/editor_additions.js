@@ -320,7 +320,6 @@ function populateAttributeInspector() {
 
     if (nearby_tags.length == 0) {
       // TODO: Look right
-      console.log('nothing found');
     }
 
     return false;
@@ -722,7 +721,6 @@ function handleEnterPressed(instance) {
   }
 
   if (!label || !token) {
-    console.log("Enter pressed in unknown context");
     return CodeMirror.Pass;
   }
 

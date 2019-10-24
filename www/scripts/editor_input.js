@@ -185,7 +185,6 @@ function createKeyEditHandler(key_id, key_input) {
     }
     if (key && key[0] != 'F') {
       alert("Einungis er hægt að nota F-lykla í flýtileiðum.");
-      console.log("couldn't set key", key);
       return;
     }
     key_input.setAttribute("value", key);

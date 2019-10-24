@@ -34,26 +34,26 @@ function loadTypo(affPath, dicPath) {
 		xhr_aff.open('GET', affPath, true);
 		xhr_aff.onload = function() {
 			if (xhr_aff.readyState === 4 && xhr_aff.status === 200) {
-				//console.log('aff loaded');
+				// aff loaded
 				var xhr_dic = new XMLHttpRequest();
 				xhr_dic.open('GET', dicPath, true);
 				xhr_dic.onload = function() {
 					if (xhr_dic.readyState === 4 && xhr_dic.status === 200) {
-						//console.log('dic loaded');
+						// dic loaded
 						resolve(new Typo('en_US', xhr_aff.responseText, xhr_dic.responseText, { platform: 'any' }));
 					} else {
-						//console.log('failed loading dic');
+						// failed loading dic
 						reject();
 					}
 				};
-				//console.log('loading dic');
+				// loading dic
 				xhr_dic.send(null);
 			} else {
-				//console.log('failed loading aff');
+				// failed loading aff
 				reject();
 			}
 		};
-		//console.log('loading aff');
+		// loading aff
 		xhr_aff.send(null);
 	});
 }

@@ -97,9 +97,7 @@ function parseTags() {
       continue;
     }
     let closer = findClosingTag(i, tag_object);
-    if (!closer) {
-      //console.log("Couldn't find a closing tag for", tag_object.tag_label, "on line", tag_object.line);
-    }
+
     tag_pair_object = { tag_open: tag_object, tag_close: closer }
     // unoptimized for refactorability
     tag_pairs.push(tag_pair_object)
@@ -128,7 +126,6 @@ function insertElementAtCursor(element, movement=undefined, newline=false) {
   editor.replaceRange(element, cursor_loc, to);
 
   if (validateXMLW3(editor.getValue()) != "OK") {
-    console.log("Inserting element", element, "at position", cursor_loc, "produces invalid XML.");
     alert("Villa! Tag er ekki leyfilegt á tilsettum stað.");
     editor.setValue(content_before);
     return;

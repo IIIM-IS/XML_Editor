@@ -4,7 +4,6 @@ var _visible_tags = true;
 
 function restoreLocalSettings() {
   if (!storageAvailable('localStorage')) {
-    console.log("Could not restore local settings: No storage available.");
     return;
   }
 
@@ -42,7 +41,6 @@ function restoreLocalSettings() {
 
 function saveViewOption(optname, optval) {
   if (!storageAvailable('localStorage')) {
-    console.log("Could not store local setting for: " + optname + "=" + optval + ": No storage available.");
     return;
   }
 

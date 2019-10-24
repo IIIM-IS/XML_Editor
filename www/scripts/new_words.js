@@ -304,7 +304,6 @@ function fetchWords(path) {
     // clear the list first....
     $("#new-word-table-body").find("tr:not(:first)").remove();
 
-    console.log("fetching words from " + path);
     let xmlhttp = new XMLHttpRequest();
     xmlhttp.onreadystatechange = function() {
         if (this.readyState == 4) {
@@ -326,14 +325,10 @@ function deleteWord(originalWord) {
     let postdata = {"word": [
         { "originalWord": originalWord.replace('word-', ''), "delete": true }
     ] };
-    console.log("deleting word " + postdata);
     let xmlhttp = new XMLHttpRequest();
     xmlhttp.onreadystatechange = function() {
         if (this.readyState == 4 && this.status == 200) {
             let myObj = JSON.parse(this.responseText);
-            console.log("DELETED WORD RESPONSE:");
-            console.log(myObj);
-            console.log("TODO: Something with it, notify the user");
         }
     }
     xmlhttp.open("POST", path, true);
@@ -345,14 +340,10 @@ function saveWord(originalWord, confirmedWord, pronunciation) {
     let postdata = {"word": [
         { "originalWord": originalWord.replace('word-', ''), "confirmedWord": confirmedWord, "pronunciation": pronunciation }
     ] };
-    console.log("saving word:", postdata);
     let xmlhttp = new XMLHttpRequest();
     xmlhttp.onreadystatechange = function() {
         if (this.readyState == 4 && this.status == 200) {
             let myObj = JSON.parse(this.responseText);
-            console.log("SAVED WORD RESPONSE:");
-            console.log(myObj);
-            console.log("TODO: Something with it, notify the user");
         }
     }
     xmlhttp.open("POST", path, true);

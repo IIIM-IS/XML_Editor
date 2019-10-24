@@ -79,8 +79,6 @@ function validateXMLW3(content) {
     } else {
       return "OK";
     }
-  } else {
-    console.log('Your browser cannot handle XML validation');
   }
   return false;
 }
@@ -103,7 +101,6 @@ var autovalidator = debounce(function() {
   if (result == "OK") {
     validateSuccess();
   } else {
-    console.log(result, "is not", "OK");
     validateFailure(result);
   }
 }, 1000);
@@ -134,7 +131,6 @@ function validateSchema(tags) {
 
   // assumes a schema_tags variable
   if (!schema_tags) {
-    console.log("Cannot validate schema without schema_tags variable!");
     return;
   }
 

@@ -958,7 +958,6 @@ Typo.prototype = {
 		function known() {
 			// verify we are still in the same operation
 			if (localId!==self.id) {
-				//console.log('different context - aborting');
 				ed1.length=ed2.length=0; // encourage GC
 				return; 
 			}
@@ -971,7 +970,6 @@ Typo.prototype = {
 
 				if (founds.indexOf(next)===-1 && self.checkExact(next)) {
 					if (progressFunc && progressFunc(next)===false) { 
-						// console.log('suggestions aborted');
 						ed1.length=ed2.length=0; // encourage GC
 						return; // abort requested
 					}
@@ -982,7 +980,6 @@ Typo.prototype = {
 				if (async) {
 					// do a sleep(0) every 200 ms
 					if (Date.now()-startTime>200) {
-						//console.log('sleep 0');
 						setTimeout(known, 0); 
 						return;
 					} 

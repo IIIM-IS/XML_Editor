@@ -115,10 +115,8 @@ function getSuggestionBox(typo) {
 			var results = [];
 			// async 
 			typo.suggest(token, null, all => {
-				//console.log('done');
 				sboxShow(cm, sbox, results, e.pageX, e.pageY);
 			}, next => {
-				//console.log('found '+next);
 				results.push(next);
 				sboxShow(cm, sbox, results, e.pageX, e.pageY, true);
 			});

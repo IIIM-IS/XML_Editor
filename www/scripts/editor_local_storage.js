@@ -131,9 +131,6 @@ function loadSavedContent(identifier) {
 }
 
 function initializeLocalStorage() {
-  if (!storageAvailable('localStorage')) {
-    console.log("Local storage is not available!");
-  }
   /*
     <a id='save_file_locally'>vista skjal...</a>
     <div class='separator'/>
